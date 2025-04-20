@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelGeneration : MonoBehaviour
 {
 
-    public Transform[] startingPositions;
+    public Transform[] startingPositions;   //Top Row of level
     public GameObject[] rooms;  // 0 -> LR, 1 -> LRB, 2 -> LRT, 3 -> LRBT
 
     private int direction;
@@ -18,9 +18,11 @@ public class LevelGeneration : MonoBehaviour
     public float minX;
     public float maxX;
     public float minY;
-    private bool stopGeneration;
+    public bool stopGeneration;
 
     public LayerMask room;
+
+    private int downCounter;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +40,7 @@ public class LevelGeneration : MonoBehaviour
         {
             if (transform.position.x < maxX)
             {
+                downCounter = 0;
                 Vector2 newPos = new Vector2(transform.position.x + moveAmount, transform.position.y);
                 transform.position = newPos;
 
@@ -64,6 +67,7 @@ public class LevelGeneration : MonoBehaviour
         {
             if (transform.position.x > minX)
             {
+                downCounter = 0;
                 Vector2 newPos = new Vector2(transform.position.x - moveAmount, transform.position.y);
                 transform.position = newPos;
 
@@ -79,6 +83,7 @@ public class LevelGeneration : MonoBehaviour
         }
         else if (direction == 5) //Move Down
         {
+            downCounter++;
             if (transform.position.y > minY)
             {
                 //Detect what type of room this is
@@ -86,15 +91,25 @@ public class LevelGeneration : MonoBehaviour
                 //if it doesn't have a bottom opening
                 if (roomDetection.GetComponent<RoomType>().type != 1 && roomDetection.GetComponent<RoomType>().type != 3)
                 {
-                    //destroy room
-                    roomDetection.GetComponent<RoomType>().RoomDestruction();
-                    //Create a new room with a bottom opening
-                    int randBottomRoom = Random.Range(1, 4);
-                    if (randBottomRoom == 2)
+                    // If we go down twice in a row, must spawn room with all 4 openings
+                    if (downCounter >= 2)
                     {
-                        randBottomRoom = 1;
+                        roomDetection.GetComponent<RoomType>().RoomDestruction();
+                        Instantiate(rooms[3], transform.position, Quaternion.identity);
                     }
-                    Instantiate(rooms[randBottomRoom], transform.position, Quaternion.identity);
+                    else
+                    {
+                        //destroy room
+                        roomDetection.GetComponent<RoomType>().RoomDestruction();
+                        //Create a new room with a bottom opening
+                        int randBottomRoom = Random.Range(1, 4);
+                        if (randBottomRoom == 2)
+                        {
+                            randBottomRoom = 1;
+                        }
+                        Instantiate(rooms[randBottomRoom], transform.position, Quaternion.identity);
+                    }
+                    
                 }
 
                 //move down and create room with top opening
