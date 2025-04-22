@@ -13,7 +13,7 @@ public class LevelGeneration : MonoBehaviour
     public float moveAmount;
 
     private float timeBtwRoom;
-    public float startTimeBtwRoom = 0.25f;
+    public float startTimeBtwRoom = 0.5f;
 
     public float minX;
     public float maxX;
