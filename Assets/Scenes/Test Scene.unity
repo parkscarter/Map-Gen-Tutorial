@@ -1617,14 +1617,12 @@ MonoBehaviour:
   - {fileID: 1790798707}
   - {fileID: 1452905076}
   rooms:
-  - {fileID: 8918928706335349150, guid: 1648c8098ee9548a7941bbb46290645b, type: 3}
-  - {fileID: 2785653162926459938, guid: 5c63cf4bdf2104ef290b1bfe4a5c5e03, type: 3}
-  - {fileID: 1159427814329351557, guid: fd656032e9fe3437babb56f8e31a377f, type: 3}
-  - {fileID: 1181696657047370588, guid: 594f11c5e985d4b8086f3fb82ce93a54, type: 3}
-  - {fileID: 3975000322451900894, guid: 3e7c27d70c48f4387a2f612a35859a17, type: 3}
-  - {fileID: 4674648198885478338, guid: 1b9440f8fb14a4e2d963d75abf1f0abd, type: 3}
+  - {fileID: 8191659288217356119, guid: a3ca7bb7ac4854a96b1e75191c7c39f0, type: 3}
+  - {fileID: 4723975263484765, guid: 91283fda5da354336837b7710c30a885, type: 3}
+  - {fileID: 8033857840482270581, guid: 72a78dde54f394a29a19747a1939789e, type: 3}
+  - {fileID: 7601588342278893306, guid: 3f466d42e43214d56a2e1687d2ce2cfd, type: 3}
   moveAmount: 10
-  startTimeBtwRoom: 0.8
+  startTimeBtwRoom: 1
   minX: 5
   maxX: 35
   minY: 5

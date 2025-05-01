@@ -10,5 +10,10 @@ public class RoomType : MonoBehaviour
     {
         Destroy(gameObject);
     }
-    
+
+    private void Start()
+    {
+        Debug.Log($"{name}: {GetComponent<RoomType>().type}");
+    }
+
 }
