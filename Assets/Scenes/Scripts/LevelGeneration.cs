@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This is the main Logic for generating a path; this project was inspired by Blackthornprod and his tutorial here: https://www.youtube.com/watch?v=hk6cUanSfXQ
+
 public class LevelGeneration : MonoBehaviour
 {
 
@@ -11,15 +13,15 @@ public class LevelGeneration : MonoBehaviour
 
     private int direction;
     //1 or 2 indicate right, 3 or 4 indicate left, 5 indicates down
-    public float moveAmount;
+    public float moveAmount = 10;
 
     private float timeBtwRoom;
-    public float startTimeBtwRoom = 0.5f;
+    public float startTimeBtwRoom = 1.0f;
 
     public float minX;
     public float maxX;
     public float minY;
-    public bool stopGeneration;
+    public bool stop;
 
     public LayerMask room;
 
@@ -43,8 +45,8 @@ public class LevelGeneration : MonoBehaviour
         {
             if (transform.position.x < maxX)
             {
-                downCounter = 0;
-                Vector2 newPos = new Vector2(transform.position.x + moveAmount, transform.position.y);
+                downCounter = 0;    //reset down counter if move right
+                Vector2 newPos = new Vector2(transform.position.x + moveAmount, transform.position.y); 
                 transform.position = newPos;
 
                 int rand = Random.Range(0, 4);
@@ -55,7 +57,6 @@ public class LevelGeneration : MonoBehaviour
 
                 Instantiate(rooms[rand], transform.position, Quaternion.identity);
                 
-
 
                 direction = Random.Range(1, 6);
                 //Dont allow move left after move right
@@ -78,7 +79,7 @@ public class LevelGeneration : MonoBehaviour
         {
             if (transform.position.x > minX)
             {
-                downCounter = 0;
+                downCounter = 0;    //reset down counter if move left
                 Vector2 newPos = new Vector2(transform.position.x - moveAmount, transform.position.y);
                 transform.position = newPos;
                 //Move left or down
@@ -106,7 +107,6 @@ public class LevelGeneration : MonoBehaviour
             {
                 //Detect what type of room this is
                 Collider2D roomDetection = Physics2D.OverlapCircle(transform.position, 1, room);
-                
                 
                 //Instantiate(rooms[3], transform.position, Quaternion.identity);
                 //if it doesn't have a bottom opening
@@ -147,7 +147,7 @@ public class LevelGeneration : MonoBehaviour
             }
             else
             {
-                stopGeneration = true;
+                stop = true;
             }
 
             
@@ -166,7 +166,8 @@ public class LevelGeneration : MonoBehaviour
         // Only proceed if not paused
         if (isPaused) return;
 
-        if (timeBtwRoom <= 0 && stopGeneration == false)
+        //Wait for timeBtwRoom, reset if we move
+        if (timeBtwRoom <= 0 && stop == false)
         {
             Move();
             timeBtwRoom = startTimeBtwRoom;
